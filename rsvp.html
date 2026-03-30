@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Premium Wedding Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<title>RSVP</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+
+    /* Royal Telugu Wedding Background */
+    background:
+      radial-gradient(circle at top, rgba(255,215,0,0.25), transparent 60%),
+      linear-gradient(135deg, #6b0000, #b8860b);
+
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  /* TORANAM DECORATION - single full-width hanging garland */
+.toranam-img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;       /* spans full width */
+    height: auto;      /* maintains aspect ratio */
+    z-index: 1000;     /* stays on top */
+    pointer-events: none;
+}
+
+  /* MAIN CARD */
+  .container {
+    width: 100%;
+    max-width: 420px;
+    margin-top: 80px;
+
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+
+    padding: 26px;
+    border-radius: 16px;
+
+    box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+    border: 2px solid rgba(212,175,55,0.5);
+
+    animation: fadeIn 1s ease;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #8b0000;
+    letter-spacing: 2px;
+  }
+
+  .sub {
+    text-align: center;
+    color: #666;
+    margin-bottom: 25px;
+  }
+
+  .hearts {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+  }
+
+  .heart-box {
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  .heart {
+    width: 50px;
+    height: 50px;
+    fill: none;
+    stroke: #444;
+    stroke-width: 2;
+    transition: 0.3s;
+  }
+
+  .selected.red .heart {
+    fill: red;
+    stroke: red;
+    transform: scale(1.2);
+  }
+
+  .selected.black .heart {
+    fill: black;
+    stroke: black;
+    transform: scale(1.2);
+  }
+
+  .heart-label {
+    margin-top: 6px;
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+  }
+
+  /* BUTTON */
+  button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 30px;
+
+    background: linear-gradient(45deg, #b8860b, #d4af37);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  }
+
+</style>
+</head>
+
+<body>
+
+<!-- TORANAM -->
+<div class="toranam"> <!-- TORANAM -->
+<img src="Toranam.jpg" class="toranam-img" alt="Toranam Decoration"></div>
+
+<div class="container">
+
+  <h1>R.S.V.P.</h1>
+  <p class="sub">Kindly respond with your presence</p>
+
+  <form 
+    action="https://formspree.io/f/mwvwpron" 
+    method="POST" 
+    onsubmit="return validateForm()"
+  >
+
+    <input type="hidden" name="attending" id="attending" required />
+
+    <div class="hearts">
+
+      <div class="heart-box" onclick="selectOption('Yes')" id="heartYesBox">
+        <svg class="heart" viewBox="0 0 24 24">
+          <path d="M12 21s-6.7-4.35-10-9C-1.5 6.5 2.5 2 7 4.5 9 5.5 12 8 12 8s3-2.5 5-3.5C21.5 2 25.5 6.5 22 12c-3.3 4.65-10 9-10 9z"/>
+        </svg>
+        <div class="heart-label">ATTENDING</div>
+      </div>
+
+      <div class="heart-box" onclick="selectOption('No')" id="heartNoBox">
+        <svg class="heart" viewBox="0 0 24 24">
+          <path d="M12 21s-6.7-4.35-10-9C-1.5 6.5 2.5 2 7 4.5 9 5.5 12 8 12 8s3-2.5 5-3.5C21.5 2 25.5 6.5 22 12c-3.3 4.65-10 9-10 9z"/>
+        </svg>
+        <div class="heart-label">NOT ATTENDING</div>
+      </div>
+
+    </div>
+
+    <input type="text" name="name" placeholder="Your Name" required />
+
+    <input type="number" name="guests" placeholder="Guests including you" min="0" max="20" required />
+
+    <select name="meal" required>
+      <option value="" disabled selected>Meal Preference</option>
+      <option>Veg</option>
+      <option>Non-Veg</option>
+    </select>
+
+    <button type="submit">Submit RSVP 💌</button>
+
+  </form>
+</div>
+
+<script>
+  function selectOption(value) {
+    document.getElementById('attending').value = value;
+
+    const yes = document.getElementById('heartYesBox');
+    const no = document.getElementById('heartNoBox');
+
+    if (value === 'Yes') {
+      yes.classList.add('selected','red');
+      no.classList.remove('selected','black');
+    } else {
+      no.classList.add('selected','black');
+      yes.classList.remove('selected','red');
+    }
+  }
+
+  function validateForm() {
+    if (!document.getElementById('attending').value) {
+      alert('Please select attending ❤️');
+      return false;
+    }
+    return true;
+  }
+</script>
+
+</body>
+</html>
